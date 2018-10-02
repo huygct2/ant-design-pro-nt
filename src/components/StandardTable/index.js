@@ -68,13 +68,8 @@ class StandardTable extends PureComponent {
       loading,
       columns,
       rowKey,
+      showAlert
     } = this.props;
-
-    const paginationProps = {
-      showSizeChanger: true,
-      showQuickJumper: true,
-      ...pagination,
-    };
 
     const rowSelection = {
       selectedRowKeys,
@@ -87,7 +82,7 @@ class StandardTable extends PureComponent {
     return (
       <div className={styles.standardTable}>
         <div className={styles.tableAlert}>
-          <Alert
+          {showAlert && <Alert
             message={
               <Fragment>
                 已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
@@ -108,14 +103,15 @@ class StandardTable extends PureComponent {
             type="info"
             showIcon
           />
+          }
         </div>
         <Table
           loading={loading}
           rowKey={rowKey || 'key'}
           rowSelection={rowSelection}
-          dataSource={list}
+          dataSource={list.slice(pagination.current, pagination.pageSize)}
           columns={columns}
-          pagination={paginationProps}
+          pagination={false}
           onChange={this.handleTableChange}
         />
       </div>

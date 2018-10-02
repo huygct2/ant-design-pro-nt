@@ -17,7 +17,7 @@ import {
   Modal,
   message,
   Badge,
-  Divider,
+  Pagination,
   Steps,
   Radio,
 } from 'antd';
@@ -60,63 +60,25 @@ class AccountList extends PureComponent {
 
   columns = [
     {
-      title: '规则名称',
+      title: 'USER NAME',
       dataIndex: 'name',
+      sorter: true
     },
     {
-      title: '描述',
+      title: 'EMAIL',
       dataIndex: 'desc',
+      sorter: true
     },
     {
-      title: '服务调用次数',
+      title: 'PHONE',
       dataIndex: 'callNo',
-      sorter: true,
-      align: 'right',
-      render: val => `${val} 万`,
-      // mark to display a total number
-      needTotal: true,
+      sorter: true
     },
     {
-      title: '状态',
+      title: 'RECENT ACTIVITY',
       dataIndex: 'status',
-      filters: [
-        {
-          text: status[0],
-          value: 0,
-        },
-        {
-          text: status[1],
-          value: 1,
-        },
-        {
-          text: status[2],
-          value: 2,
-        },
-        {
-          text: status[3],
-          value: 3,
-        },
-      ],
-      render(val) {
-        return <Badge status={statusMap[val]} text={status[val]} />;
-      },
-    },
-    {
-      title: '上次调度时间',
-      dataIndex: 'updatedAt',
-      sorter: true,
-      render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
-    },
-    {
-      title: '操作',
-      render: (text, record) => (
-        <Fragment>
-          <a onClick={() => this.handleUpdateModalVisible(true, record)}>配置</a>
-          <Divider type="vertical" />
-          <a href="">订阅警报</a>
-        </Fragment>
-      ),
-    },
+      sorter: true
+    }
   ];
 
   componentDidMount() {
@@ -124,6 +86,10 @@ class AccountList extends PureComponent {
     dispatch({
       type: 'rule/fetch',
     });
+  }
+
+  handleChangePagination = (page, pageSize) => {
+    this.handleStandardTableChange({current: page, pageSize}, {}, {})
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
@@ -379,20 +345,29 @@ class AccountList extends PureComponent {
     } = this.props;
     const { selectedRows } = this.state;
     return (
-      <PageHeaderWrapper title="查询表格">
-        <Card bordered={false}>
-          <div className={styles.tableList}>
-            <StandardTable
-              selectedRows={selectedRows}
-              loading={loading}
-              data={data}
-              columns={this.columns}
-              onSelectRow={this.handleSelectRows}
-              onChange={this.handleStandardTableChange}
-            />
-          </div>
-        </Card>
-      </PageHeaderWrapper>
+      <Row>
+        <Row>
+          <Col style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}}>
+            <Button icon="cloud" />
+            <Button icon="cloud" />
+            <Pagination size="small" simple onChange={this.handleChangePagination} {...data.pagination} />
+          </Col>
+        </Row>
+        <Row>
+          <Card bordered={false}>
+            <div className={styles.tableList}>
+              <StandardTable
+                selectedRows={selectedRows}
+                loading={loading}
+                data={data}
+                columns={this.columns}
+                onSelectRow={this.handleSelectRows}
+                onChange={this.handleStandardTableChange}
+              />
+            </div>
+          </Card>
+        </Row>
+      </Row>
     );
   }
 }
