@@ -14,15 +14,16 @@ import {
   Menu,
   InputNumber,
   DatePicker,
-  Modal,
+  Divider,
   message,
-  Badge,
+  Avatar,
   Pagination,
   Steps,
   Radio,
 } from 'antd';
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import AccountDetails from './AccountDetails';
 
 import styles from './Account.less';
 
@@ -40,11 +41,11 @@ const status = ['关闭', '运行中', '已上线', '异常'];
 
 /* eslint react/no-multi-comp:0 */
 @connect((aaa) => {
-  const { rule, loading } = aaa
+  const { account, loading } = aaa
   console.log('=== ', aaa)
   return {
-    rule,
-    loading: loading.models.rule,
+    account,
+    loading: loading.models.account,
   }
 })
 @Form.create()
@@ -62,21 +63,28 @@ class AccountList extends PureComponent {
     {
       title: 'USER NAME',
       dataIndex: 'name',
-      sorter: true
+      sorter: true,
+      render: (text, record) => (
+        <div onClick={() => this.toggleView(record)}>
+          <Avatar icon="user" />
+          <Divider type="vertical" />
+          <span>{text}</span>
+        </div>
+      ),
     },
     {
       title: 'EMAIL',
-      dataIndex: 'desc',
+      dataIndex: 'email',
       sorter: true
     },
     {
       title: 'PHONE',
-      dataIndex: 'callNo',
+      dataIndex: 'phone',
       sorter: true
     },
     {
       title: 'RECENT ACTIVITY',
-      dataIndex: 'status',
+      dataIndex: 'activity',
       sorter: true
     }
   ];
@@ -84,12 +92,20 @@ class AccountList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetch',
+      type: 'account/fetch',
+    });
+  }
+
+  toggleView = (item) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'account/toggleView',
+      payload: item,
     });
   }
 
   handleChangePagination = (page, pageSize) => {
-    this.handleStandardTableChange({current: page, pageSize}, {}, {})
+    this.handleStandardTableChange({ current: page, pageSize }, {}, {})
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
@@ -113,7 +129,7 @@ class AccountList extends PureComponent {
     }
 
     dispatch({
-      type: 'rule/fetch',
+      type: 'account/fetch',
       payload: params,
     });
   };
@@ -125,7 +141,7 @@ class AccountList extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'account/fetch',
       payload: {},
     });
   };
@@ -145,7 +161,7 @@ class AccountList extends PureComponent {
     switch (e.key) {
       case 'remove':
         dispatch({
-          type: 'rule/remove',
+          type: 'account/remove',
           payload: {
             key: selectedRows.map(row => row.key),
           },
@@ -185,7 +201,7 @@ class AccountList extends PureComponent {
       });
 
       dispatch({
-        type: 'rule/fetch',
+        type: 'account/fetch',
         payload: values,
       });
     });
@@ -194,7 +210,7 @@ class AccountList extends PureComponent {
   handleAdd = fields => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/add',
+      type: 'account/add',
       payload: {
         desc: fields.desc,
       },
@@ -207,7 +223,7 @@ class AccountList extends PureComponent {
   handleUpdate = fields => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/update',
+      type: 'account/update',
       payload: {
         name: fields.name,
         desc: fields.desc,
@@ -338,34 +354,46 @@ class AccountList extends PureComponent {
     return expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
   }
 
-  render() {
+  renderCard() {
     const {
-      rule: { data },
+      account: { data, view, VIEWS },
       loading,
     } = this.props;
     const { selectedRows } = this.state;
+    if (view.key === VIEWS.list.key) {
+      return (
+        <Card bordered={false}>
+          <div className={styles.tableList}>
+            <StandardTable
+              selectedRows={selectedRows}
+              loading={loading}
+              data={data}
+              columns={this.columns}
+              onSelectRow={this.handleSelectRows}
+              onChange={this.handleStandardTableChange}
+            />
+          </div>
+        </Card>
+      )
+    }
+    return <AccountDetails />
+  }
+
+  render() {
+    const {
+      account: { data }
+    } = this.props;
     return (
       <Row>
         <Row>
-          <Col style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}}>
+          <Col style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
             <Button icon="cloud" />
             <Button icon="cloud" />
             <Pagination size="small" simple onChange={this.handleChangePagination} {...data.pagination} />
           </Col>
         </Row>
         <Row>
-          <Card bordered={false}>
-            <div className={styles.tableList}>
-              <StandardTable
-                selectedRows={selectedRows}
-                loading={loading}
-                data={data}
-                columns={this.columns}
-                onSelectRow={this.handleSelectRows}
-                onChange={this.handleStandardTableChange}
-              />
-            </div>
-          </Card>
+          {this.renderCard()}
         </Row>
       </Row>
     );

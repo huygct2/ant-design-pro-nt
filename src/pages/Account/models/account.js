@@ -1,16 +1,28 @@
 import { queryRule, removeRule, addRule, updateRule } from '@/services/api';
 
+const VIEWS = {
+  list: { key: 'list', name: 'Table Users' },
+  detail: { key: 'detail', name: 'Uesr details' }
+}
+
 export default {
-  namespace: 'rule',
+  namespace: 'account',
 
   state: {
+    VIEWS,
+    view: VIEWS.list,
     data: {
       list: [],
       pagination: {},
-    },
+    }
   },
 
   effects: {
+    *toggleView({ payload }, { put }) {
+      yield put({
+        type: 'toggleView'
+      });
+    },
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryRule, payload);
       yield put({
@@ -51,5 +63,11 @@ export default {
         data: action.payload,
       };
     },
+    toggleView(state) {
+      return {
+        ...state,
+        view: state.view.key === VIEWS.list.key ? VIEWS.detail : VIEWS.list,
+      };
+    }
   },
 };
