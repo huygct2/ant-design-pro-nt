@@ -23,31 +23,61 @@ export default [
         path: '/dashboard',
         name: 'dashboard',
         icon: 'dashboard',
-        component: './Dashboard/Analysis'
+        component: '404',
       },
       {
-        path: '/1',
-        name: '1',
-        icon: 'dashboard',
-        component: './Dashboard/Analysis'
+        path: '/customer-service',
+        name: 'customer-service',
+        icon: 'customer-service',
+        component: '404',
       },
       {
-        path: '/2',
-        name: '2',
-        icon: 'dashboard',
-        component: './Dashboard/Analysis'
+        path: '/user',
+        name: 'user',
+        icon: 'user',
+        component: '404',
       },
       {
-        path: '/3',
-        name: '3',
-        icon: 'dashboard',
-        component: './Dashboard/Analysis'
+        path: '/calendar',
+        name: 'calendar',
+        icon: 'calendar',
+        component: '404',
       },
       {
-        path: '/4',
-        name: '4',
-        icon: 'dashboard',
-        component: './Account/Account'
+        path: '/book',
+        name: 'book',
+        icon: 'book',
+        component: '404',
+      },
+      {
+        path: '/video-camera',
+        name: 'video',
+        icon: 'video-camera',
+        component: '404',
+      },
+      {
+        path: '/tool',
+        name: 'tool',
+        icon: 'tool',
+        component: '404',
+      },
+      {
+        path: '/safety',
+        name: 'safety',
+        icon: 'safety',
+        component: '404',
+      },
+      {
+        path: '/bar-chart',
+        name: 'statistic',
+        icon: 'bar-chart',
+        component: '404',
+      },
+      {
+        path: '/admin',
+        name: 'admin',
+        icon: 'setting',
+        component: './Account/Account',
       },
       {
         component: '404',

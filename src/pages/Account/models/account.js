@@ -2,8 +2,8 @@ import { queryRule, removeRule, addRule, updateRule } from '@/services/api';
 
 const VIEWS = {
   list: { key: 'list', name: 'Table Users' },
-  detail: { key: 'detail', name: 'Uesr details' }
-}
+  detail: { key: 'detail', name: 'Uesr details' },
+};
 
 export default {
   namespace: 'account',
@@ -11,18 +11,14 @@ export default {
   state: {
     VIEWS,
     view: VIEWS.list,
+    currentUser: {},
     data: {
       list: [],
       pagination: {},
-    }
+    },
   },
 
   effects: {
-    *toggleView({ payload }, { put }) {
-      yield put({
-        type: 'toggleView'
-      });
-    },
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryRule, payload);
       yield put({
@@ -63,11 +59,12 @@ export default {
         data: action.payload,
       };
     },
-    toggleView(state) {
+    toggleView(state, action) {
       return {
         ...state,
         view: state.view.key === VIEWS.list.key ? VIEWS.detail : VIEWS.list,
+        currentUser: action.payload,
       };
-    }
+    },
   },
 };

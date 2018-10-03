@@ -1,4 +1,17 @@
 export default {
+  'menu.dashboard': 'Dashboard',
+  'menu.customer-service': 'Customer Service',
+  'menu.user': 'User',
+  'menu.calendar': 'Calendar',
+  'menu.book': 'Book',
+  'menu.video': 'Video',
+  'menu.tool': 'Tool',
+  'menu.safety': 'Security',
+  'menu.statistic': 'Statistic',
+  'menu.admin': 'Admin',
+  'app.account.detail.email': 'Email',
+  'app.account.detail.error-email': 'Please input your mail',
+
   'navbar.lang': '中文',
   'layout.user.link.help': 'help',
   'layout.user.link.privacy': 'privacy',

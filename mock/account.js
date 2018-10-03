@@ -1,16 +1,19 @@
 import { parse } from 'url';
 
 // mock tableListDataSource
-const tableListDataSource = [];
-for (let i = 0; i < 46; i += 1) {
-  tableListDataSource.push({
-    key: i,
-    disabled: i % 6 === 0,
-    name: `name ${i}`,
-    email: `mail-${i}@bn.zu`,
-    phone: Math.floor(Math.random() * 1000),
-    activity: 'nothing'
-  });
+function getData() {
+  const data = [];
+  for (let i = 0; i < 46; i += 1) {
+    data.push({
+      key: i,
+      disabled: i % 6 === 0,
+      name: `name ${i}`,
+      email: `mail-${i}@bn.zu`,
+      phone: Math.floor(Math.random() * 1000),
+      activity: 'nothing',
+    });
+  }
+  return data;
 }
 
 function getAccounts(req, res, u) {
@@ -21,7 +24,7 @@ function getAccounts(req, res, u) {
 
   const params = parse(url, true).query;
 
-  let dataSource = tableListDataSource;
+  let dataSource = getData();
 
   if (params.sorter) {
     const s = params.sorter.split('_');
@@ -53,13 +56,13 @@ function getAccounts(req, res, u) {
     pageSize = params.pageSize * 1;
   }
 
-  const currentPage = parseInt(params.currentPage, 10) || 1
+  const currentPage = parseInt(params.currentPage, 10) || 1;
   const result = {
     list: dataSource.splice(currentPage * pageSize, pageSize),
     pagination: {
       total: dataSource.length,
       pageSize,
-      current: currentPage
+      current: currentPage,
     },
   };
 
@@ -67,5 +70,5 @@ function getAccounts(req, res, u) {
 }
 
 export default {
-  'GET /api/account': getAccounts
+  'GET /api/account': getAccounts,
 };

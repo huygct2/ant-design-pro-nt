@@ -249,6 +249,7 @@ class BasicLayout extends React.PureComponent {
             menuData={menuData}
             handleMenuCollapse={this.handleMenuCollapse}
             logo={logo}
+            currentApp={routerConfig}
             isMobile={isMobile}
             {...this.props}
           />
@@ -257,7 +258,7 @@ class BasicLayout extends React.PureComponent {
               {children}
             </Authorized>
           </Content>
-          <Footer />
+          {/* <Footer /> */}
         </Layout>
       </Layout>
     );
@@ -278,12 +279,11 @@ class BasicLayout extends React.PureComponent {
   }
 }
 
-export default connect((aaa) => {
-  const { global, setting } = aaa
-  console.log(aaa)
+export default connect(aaa => {
+  const { setting } = aaa;
   return {
-    collapsed: global.collapsed,
+    collapsed: true,
     layout: setting.layout,
     ...setting,
-  }
+  };
 })(BasicLayout);
