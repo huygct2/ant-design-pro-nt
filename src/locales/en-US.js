@@ -9,8 +9,17 @@ export default {
   'menu.safety': 'Security',
   'menu.statistic': 'Statistic',
   'menu.admin': 'Admin',
+  'app.account.detail.firstname': 'First Name',
+  'app.account.detail.error-firstname': 'Please input your first name',
+  'app.account.detail.lastname': 'Last Name',
+  'app.account.detail.error-lastname': 'Please input your last name',
   'app.account.detail.email': 'Email',
   'app.account.detail.error-email': 'Please input your mail',
+  'app.account.detail.phone': 'Phone',
+  'app.account.detail.timezone': 'Time zone',
+  'app.account.detail.language': 'Language',
+  'app.account.detail.user-role': 'User Role',
+  
 
   'navbar.lang': '中文',
   'layout.user.link.help': 'help',

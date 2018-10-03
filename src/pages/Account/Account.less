@@ -32,43 +32,49 @@
       cursor: pointer;
     }
   }
-  .detail {
-    display: flex;
-    padding-top: 12px;
-
-    .left {
-      max-width: 448px;
-      min-width: 224px;
-      text-align: center;
-
-      .avatarBox {
-        .avatar {
-          width: 144px;
-          height: 144px;
-          margin: auto;
-          overflow: hidden;
-          img {
-            width: 100%;
+  .detailContents {
+    .header {
+      font-weight: 900;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .detail {
+      display: flex;
+      padding-top: 48px;
+  
+      .left {
+        max-width: 448px;
+        min-width: 224px;
+        text-align: center;
+  
+        .avatarBox {
+          .avatar {
+            width: 144px;
+            height: 144px;
+            margin: auto;
+            overflow: hidden;
+            img {
+              width: 100%;
+            }
+          }
+          .button_view {
+            width: 144px;
+            margin-top: 16px;
+            text-align: center;
           }
         }
-        .button_view {
-          width: 144px;
-          margin-top: 16px;
-          text-align: center;
-        }
       }
-    }
-    .right {
-      flex: 1;
-      padding-left: 48px;
-      padding-right: 200px;
-      .buttonFooter {
-        text-align: right;
-        .cancelButton {
-          margin: 8px;
-        }
-        .saveButton {
-          margin: 8px;
+      .right {
+        flex: 1;
+        padding-left: 48px;
+        padding-right: 200px;
+        .buttonFooter {
+          text-align: right;
+          .cancelButton {
+            margin: 8px;
+          }
+          .saveButton {
+            margin: 8px;
+          }
         }
       }
     }

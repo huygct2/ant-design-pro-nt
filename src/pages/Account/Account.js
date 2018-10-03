@@ -134,14 +134,17 @@ class AccountList extends PureComponent {
     }
     return (
       <Card bordered={false}>
-        <AccountDetails currentUser={currentUser} />
+        <AccountDetails
+          currentUser={currentUser}
+          toggleView={this.toggleView}
+        />
       </Card>
     );
   }
 
   render() {
     const {
-      account: { data },
+      account: { data, view, VIEWS },
       route,
     } = this.props;
     return (
@@ -153,16 +156,17 @@ class AccountList extends PureComponent {
               <span className={styles.title}>Users</span>
             </span>
           </Col>
-          <Col className={styles.contentsRight}>
-            <Button className={styles.button} icon="reload" onClick={this.handleRefresh} />
-            <Button className={styles.button} icon="download" />
-            <Pagination
-              size="small"
-              simple
-              onChange={this.handleChangePagination}
-              {...data.pagination}
-            />
-          </Col>
+          {view.key === VIEWS.list.key &&
+            <Col className={styles.contentsRight}>
+              <Button className={styles.button} icon="reload" onClick={this.handleRefresh} />
+              <Button className={styles.button} icon="download" />
+              <Pagination
+                size="small"
+                simple
+                onChange={this.handleChangePagination}
+                {...data.pagination}
+              />
+            </Col>}
         </Row>
         <Row>{this.renderCard()}</Row>
       </Row>
