@@ -16,9 +16,9 @@ export default [
     component: '../layouts/BasicLayout',
     routes: [
       // dashboard
-      { path: '/', redirect: '/dashboard/analysis' },
+      { path: '/', redirect: '/admin' },
       {
-        path: '/dashboard',
+        path: '/dashboard-1',
         name: 'dashboard',
         icon: 'dashboard',
         component: '404',
@@ -30,7 +30,7 @@ export default [
         component: '404',
       },
       {
-        path: '/user',
+        path: '/customer',
         name: 'user',
         icon: 'user',
         component: '404',

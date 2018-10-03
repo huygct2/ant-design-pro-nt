@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { formatMessage } from 'umi/locale';
-import { Row, Col, Icon, Card, Form, Button, Divider, Avatar, Pagination } from 'antd';
+import { Row, Col, Icon, Card, Button, Divider, Avatar, Pagination } from 'antd';
 import StandardTable from '@/components/StandardTable';
 import AccountDetails from './AccountDetails';
 
@@ -13,15 +12,13 @@ const getValue = obj =>
     .join(',');
 
 /* eslint react/no-multi-comp:0 */
-@connect(aaa => {
-  const { account, loading } = aaa;
-  console.log('aaa ', aaa);
+@connect(state => {
+  const { account, loading } = state;
   return {
     account,
     loading: loading.models.account,
   };
 })
-@Form.create()
 class AccountList extends PureComponent {
   state = {
     selectedRows: [],

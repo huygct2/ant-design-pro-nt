@@ -8,6 +8,7 @@ function getData() {
       key: i,
       disabled: i % 6 === 0,
       name: `name ${i}`,
+      lastname: `${i}-nt`,
       email: `mail-${i}@bn.zu`,
       phone: Math.floor(Math.random() * 1000),
       activity: 'nothing',

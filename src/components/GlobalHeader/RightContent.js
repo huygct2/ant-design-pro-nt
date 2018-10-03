@@ -1,62 +1,18 @@
 import React, { PureComponent } from 'react';
-import { formatMessage, setLocale, getLocale } from 'umi/locale';
-import { Tag, Icon, Tooltip } from 'antd';
-import moment from 'moment';
-import groupBy from 'lodash/groupBy';
+import { formatMessage } from 'umi/locale';
+import { Icon, Tooltip } from 'antd';
 import NoticeIcon from '../NoticeIcon';
 import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
 
 export default class GlobalHeaderRight extends PureComponent {
-  getNoticeData() {
-    const { notices = [] } = this.props;
-    if (notices.length === 0) {
-      return {};
-    }
-    const newNotices = notices.map(notice => {
-      const newNotice = { ...notice };
-      if (newNotice.datetime) {
-        newNotice.datetime = moment(notice.datetime).fromNow();
-      }
-      if (newNotice.id) {
-        newNotice.key = newNotice.id;
-      }
-      if (newNotice.extra && newNotice.status) {
-        const color = {
-          todo: '',
-          processing: 'blue',
-          urgent: 'red',
-          doing: 'gold',
-        }[newNotice.status];
-        newNotice.extra = (
-          <Tag color={color} style={{ marginRight: 0 }}>
-            {newNotice.extra}
-          </Tag>
-        );
-      }
-      return newNotice;
-    });
-    return groupBy(newNotices, 'type');
-  }
-
-  changLang = () => {
-    const locale = getLocale();
-    if (!locale || locale === 'zh-CN') {
-      setLocale('en-US');
-    } else {
-      setLocale('zh-CN');
-    }
-  };
 
   render() {
     const {
-      currentUser,
-      fetchingNotices,
       onNoticeVisibleChange,
       onNoticeClear,
       theme,
     } = this.props;
-    const noticeData = this.getNoticeData();
     let className = styles.right;
     if (theme === 'dark') {
       className = `${styles.right}  ${styles.dark}`;
@@ -91,29 +47,28 @@ export default class GlobalHeaderRight extends PureComponent {
         </Tooltip>
         <NoticeIcon
           className={styles.action}
-          count={currentUser.notifyCount}
+          count={3}
           onItemClick={(item, tabProps) => {
             console.log(item, tabProps); // eslint-disable-line
           }}
           onClear={onNoticeClear}
           onPopupVisibleChange={onNoticeVisibleChange}
-          loading={fetchingNotices}
           popupAlign={{ offset: [20, -16] }}
         >
           <NoticeIcon.Tab
-            list={noticeData.notification}
+            list={[]}
             title={formatMessage({ id: 'component.globalHeader.notification' })}
             emptyText={formatMessage({ id: 'component.globalHeader.notification.empty' })}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg"
           />
           <NoticeIcon.Tab
-            list={noticeData.message}
+            list={[]}
             title={formatMessage({ id: 'component.globalHeader.message' })}
             emptyText={formatMessage({ id: 'component.globalHeader.message.empty' })}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
           />
           <NoticeIcon.Tab
-            list={noticeData.event}
+            list={[]}
             title={formatMessage({ id: 'component.globalHeader.event' })}
             emptyText={formatMessage({ id: 'component.globalHeader.event.empty' })}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
